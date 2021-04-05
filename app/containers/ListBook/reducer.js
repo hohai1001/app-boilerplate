@@ -1,3 +1,4 @@
+/* eslint-disable no-plusplus */
 /*
  *
  * ListBook reducer
@@ -6,16 +7,21 @@
 import produce from 'immer';
 import {
   DEFAULT_ACTION,
-  LOAD_REPOS,
-  LOAD_REPOS_SUCCESS,
-  LOAD_REPOS_ERROR,
+  LOAD_LISTBOOK,
+  LOAD_LISTBOOK_SUCCESS,
+  LOAD_LISTBOOK_ERROR,
 } from './constants';
 
 export const initialState = {
+  start: 0,
+  end: 10,
+  click: 1,
+  check: 1,
   loading: false,
   error: false,
-  userData: {
-    repositories: false,
+  listBook: {
+    repositories: [],
+    data: [],
   },
 };
 
@@ -26,27 +32,46 @@ const listBookReducer = (state = initialState, action) =>
       case DEFAULT_ACTION:
         break;
 
-      case LOAD_REPOS:
-        // console.log('reducer --- LOAD_REPOS');
-        draft.loading = true;
-        draft.error = false;
-        draft.userData.repositories = false;
+      case LOAD_LISTBOOK:
+        // action.isLoading = true;
+        // console.log('action.isLoading', action.isLoading);
         break;
 
-      case LOAD_REPOS_SUCCESS:
-        action.repos.no = 1;
-        action.repos.price = 10;
-        draft.userData.repositories = action.repos;
-        // console.log('reducer --- LOAD_REPOS_SUCCESS', state);
-
+      case LOAD_LISTBOOK_SUCCESS:
         draft.loading = false;
+        // console.log('reducer LOAD_LISTBOOK_SUCCESS', draft.loading);
+        // draft.listBook.data = action.listBooks.map((item, idx) => {
+        //   item.no = idx + 1;
+        //   item.price = Math.floor(Math.random() * 100);
+        //   return item;
+        // });
+
+        // draft.click += action.click;
+        // draft.check += 1;
+        // if (draft.click === draft.check) {
+        //   draft.listBook.repositories.push(
+        //     ...draft.listBook.data.slice(draft.start, draft.end),
+        //   );
+        //   draft.start += 10;
+        //   draft.end += 10;
+        // } else {
+        //   draft.listBook.repositories.push(
+        //     ...draft.listBook.data.slice(draft.start, draft.end),
+        //   );
+        // }
+        draft.listBook.repositories.push(...action.listBooks);
+        // console.log('action.listBooks', action.listBooks);
         break;
 
-      case LOAD_REPOS_ERROR:
-        // console.log('reducer --- LOAD_REPOS_ERROR');
+      case LOAD_LISTBOOK_ERROR:
         draft.error = action.error;
         draft.loading = false;
         break;
+
+      // case LOAD_LOADMORE:
+      //   console.log('reducer LOAD_LOADMORE', draft.loading);
+      //   draft.loading = true;
+      //   break;
     }
   });
 
