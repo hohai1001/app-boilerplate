@@ -10,8 +10,6 @@ function* listBookSaga(action) {
   // See example in containers/HomePage/saga.js
   const requestURL = 'https://jsonplaceholder.typicode.com/posts';
   try {
-    let { start } = action;
-    let { end } = action;
     // Call our request helper (see 'utils/request')
     const getBook = yield call(request, requestURL);
     const addFields = getBook.map((item, idx) => {
@@ -19,13 +17,11 @@ function* listBookSaga(action) {
       item.price = Math.floor(Math.random() * 100);
       return item;
     });
-    // console.log('saga --- LOAD_LOADMORE trước', action.loading);
-
-    const listBooks = addFields.slice(start, end);
-    start = action.start + 10;
-    end = action.end + 10;
-    // console.log('saga --- LOAD_LOADMORE', start);
-    yield put(loadListBookSuccess(listBooks));
+    action.isLoading = true;
+    if (action.isLoading) {
+      const listBooks = addFields.slice(action.offset, action.offset + 10);
+      yield put(loadListBookSuccess(listBooks));
+    }
   } catch (err) {
     yield put(loadListBookError(err));
   }

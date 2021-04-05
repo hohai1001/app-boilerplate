@@ -22,7 +22,13 @@ import saga from './saga';
 import { loadListBook } from './actions';
 import Loading from '../loading';
 
-export function ListBook({ getListBook, listBook, isLoading }) {
+export function ListBook({
+  getListBook,
+  listBook,
+  isLoading,
+  offset = 0,
+  loading = true,
+}) {
   useInjectReducer({ key: 'listBook', reducer });
   useInjectSaga({ key: 'listBook', saga });
 
@@ -81,11 +87,12 @@ export function ListBook({ getListBook, listBook, isLoading }) {
         {isLoading ? (
           <Loading />
         ) : (
-          <button onClick={() => getListBook({ loading: true })}>
+          <button onClick={() => getListBook(offset, loading)}>
             Load more
           </button>
         )}
       </div>
+      <br />
     </div>
   );
 }
@@ -95,6 +102,8 @@ ListBook.propTypes = {
   getListBook: PropTypes.func,
   listBook: PropTypes.any,
   isLoading: PropTypes.bool,
+  offset: PropTypes.number,
+  loading: PropTypes.bool,
 };
 
 const mapStateToProps = createStructuredSelector({
@@ -105,7 +114,7 @@ const mapStateToProps = createStructuredSelector({
 
 function mapDispatchToProps(dispatch) {
   return {
-    getListBook: prams => dispatch(loadListBook(prams)),
+    getListBook: (offset, params) => dispatch(loadListBook(offset, params)),
     // getLoading: () => dispatch(loadLoadMore()),
   };
 }
