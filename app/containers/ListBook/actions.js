@@ -6,9 +6,9 @@
 
 import {
   DEFAULT_ACTION,
-  LOAD_REPOS,
-  LOAD_REPOS_SUCCESS,
-  LOAD_REPOS_ERROR,
+  LOAD_LISTBOOK,
+  LOAD_LISTBOOK_SUCCESS,
+  LOAD_LISTBOOK_ERROR,
 } from './constants';
 
 export function defaultAction() {
@@ -17,25 +17,44 @@ export function defaultAction() {
   };
 }
 
-export function loadRepos() {
+export function loadListBook(offset = 0, isLoading) {
   // console.log('action --- loadRepos');
   return {
-    type: LOAD_REPOS,
+    type: LOAD_LISTBOOK,
+    offset,
+    loading: isLoading,
   };
 }
 
-export function reposLoaded(repos) {
-  // console.log('action --- reposLoaded');
+export function loadListBookSuccess(
+  listBooks = [],
+  start = 0,
+  end = 10,
+  click = 1,
+) {
+  // console.log('action --- loadListBookSuccess');
   return {
-    type: LOAD_REPOS_SUCCESS,
-    repos,
+    type: LOAD_LISTBOOK_SUCCESS,
+    listBooks,
+    start,
+    end,
+    click,
   };
 }
 
-export function repoLoadingError(error) {
+export function loadListBookError(error) {
   // console.log('action --- repoLoadingError');
   return {
-    type: LOAD_REPOS_ERROR,
+    type: LOAD_LISTBOOK_ERROR,
     error,
   };
 }
+
+// export function loadLoadMore(start = 0, end = 0) {
+//   // console.log('action --- loadRepos');
+//   return {
+//     type: LOAD_LOADMORE,
+//     start,
+//     end,
+//   };
+// }
