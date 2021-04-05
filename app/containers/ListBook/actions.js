@@ -17,28 +17,20 @@ export function defaultAction() {
   };
 }
 
-export function loadListBook(offset = 0, isLoading) {
+export function loadListBook(offset = 0, isloading) {
   // console.log('action --- loadRepos');
   return {
     type: LOAD_LISTBOOK,
     offset,
-    loading: isLoading,
+    isloading,
   };
 }
 
-export function loadListBookSuccess(
-  listBooks = [],
-  start = 0,
-  end = 10,
-  click = 1,
-) {
+export function loadListBookSuccess(listBooks = []) {
   // console.log('action --- loadListBookSuccess');
   return {
     type: LOAD_LISTBOOK_SUCCESS,
     listBooks,
-    start,
-    end,
-    click,
   };
 }
 
@@ -49,12 +41,3 @@ export function loadListBookError(error) {
     error,
   };
 }
-
-// export function loadLoadMore(start = 0, end = 0) {
-//   // console.log('action --- loadRepos');
-//   return {
-//     type: LOAD_LOADMORE,
-//     start,
-//     end,
-//   };
-// }
