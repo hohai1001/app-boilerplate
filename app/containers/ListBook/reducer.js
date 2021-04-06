@@ -31,6 +31,7 @@ const listBookReducer = (state = initialState, action) =>
   produce(state, draft => {
     switch (action.type) {
       case LOAD_LISTBOOK:
+        draft.statusFlags.isCallApi = true;
         if (action.isLoadMore === false) {
           draft.linkParams.offset = initialState.linkParams.offset;
         } else {
@@ -55,7 +56,6 @@ const listBookReducer = (state = initialState, action) =>
         }
 
         draft.listBook = list;
-        draft.statusFlags.isCallApi = true;
 
         break;
 
