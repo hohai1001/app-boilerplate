@@ -47,11 +47,19 @@ const listBookReducer = (state = initialState, action) =>
             state.linkParams.offset + action.listBook.length;
         }
 
+        if (action.listBook.length === draft.linkParams.limit) {
+          draft.statusFlags.isLoadMore = false;
+        } else if (action.listBook.length < draft.linkParams.limit) {
+          draft.statusFlags.isLoadMore = true;
+        } else {
+          draft.statusFlags.isLoadMore = true;
+        }
+
         if (action.isLoadMore === false) {
           list = data;
         } else {
           list = [...state.listBook, ...data];
-          draft.statusFlags.isLoadMore = false;
+          // draft.statusFlags.isLoadMore = false;
         }
 
         draft.listBook = list;

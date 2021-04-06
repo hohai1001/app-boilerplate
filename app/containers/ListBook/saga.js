@@ -14,12 +14,12 @@ function* listBookSaga(action) {
     const { limit, offset } = yield select(makeSelectLinkParams());
     // Call our request helper (see 'utils/request')
     const getBook = yield call(request, requestURL);
-
     const addFields = getBook.map((item, idx) => {
       item.no = idx + 1;
       item.price = Math.floor(Math.random() * 100);
       return item;
     });
+
     const listBook = addFields.slice(offset, limit + offset);
 
     yield put(loadListBookSuccess(listBook, action.isLoadMore));
