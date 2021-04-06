@@ -17,11 +17,10 @@ export function defaultAction() {
   };
 }
 
-export function loadListBook(infoBook, isLoadMore = false) {
+export function loadListBook(isLoadMore = false) {
   // console.log('action --- loadListBook');
   return {
     type: LOAD_LISTBOOK,
-    infoBook,
     isLoadMore,
   };
 }

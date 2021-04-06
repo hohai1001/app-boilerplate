@@ -12,7 +12,6 @@ function* listBookSaga(action) {
   const requestURL = 'https://jsonplaceholder.typicode.com/posts';
   try {
     const { limit, offset } = yield select(makeSelectLinkParams());
-
     // Call our request helper (see 'utils/request')
     const getBook = yield call(request, requestURL);
 
@@ -21,8 +20,8 @@ function* listBookSaga(action) {
       item.price = Math.floor(Math.random() * 100);
       return item;
     });
-
     const listBook = addFields.slice(offset, limit + offset);
+
     yield put(loadListBookSuccess(listBook, action.isLoadMore));
   } catch (err) {
     yield put(loadListBookError(err));

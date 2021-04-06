@@ -31,14 +31,10 @@ const listBookReducer = (state = initialState, action) =>
   produce(state, draft => {
     switch (action.type) {
       case LOAD_LISTBOOK:
-        // console.log('reducer ---- LOAD_LISTBOOK', action.isLoadMore);
-        draft.statusFlags.isCallApi = true;
         if (action.isLoadMore === false) {
           draft.linkParams.offset = initialState.linkParams.offset;
         } else {
           draft.statusFlags.isLoadMore = true;
-          draft.linkParams.offset =
-            state.linkParams.offset + state.linkParams.limit;
         }
         break;
 
@@ -46,24 +42,24 @@ const listBookReducer = (state = initialState, action) =>
         const data = action.listBook;
         let list = [];
 
-        // console.log('reducer ---- LOAD_LISTBOOK_SUCCESS', action.listBook);
+        if (action.listBook.length > 0) {
+          draft.linkParams.offset =
+            state.linkParams.offset + action.listBook.length;
+        }
 
         if (action.isLoadMore === false) {
           list = data;
         } else {
-          draft.statusFlags.isLoadMore = false;
           list = [...state.listBook, ...data];
+          draft.statusFlags.isLoadMore = false;
         }
 
         draft.listBook = list;
-
-        // draft.loading = false;
-        // draft.listBook.push(...action.listBooks);
+        draft.statusFlags.isCallApi = true;
 
         break;
 
       case LOAD_LISTBOOK_ERROR:
-        // console.log('reducer ---- LOAD_LISTBOOK_ERROR');
         draft.linkParams.offset = state.linkParams.offset;
         if (action.isLoadMore === false) {
           draft.listReport = initialState.listReport;
@@ -71,8 +67,6 @@ const listBookReducer = (state = initialState, action) =>
           draft.statusFlags.isLoadMore = false;
           alert('Gọi API thất bại !');
         }
-        // draft.error = action.error;
-        // draft.loading = false;
         break;
     }
   });
