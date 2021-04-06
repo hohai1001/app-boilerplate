@@ -1,5 +1,3 @@
-/* eslint-disable no-alert */
-/* eslint-disable no-case-declarations */
 /* eslint-disable no-plusplus */
 /*
  *
@@ -14,15 +12,15 @@ import {
 } from './constants';
 
 export const initialState = {
-  listBook: [],
-  linkParams: {
-    limit: 10,
-    offset: 0,
-    errorMessage: '',
-  },
-  statusFlags: {
-    isLoadMore: false,
-    isCallApi: false,
+  offset: 0,
+  end: 10,
+  click: 1,
+  check: 1,
+  loading: false,
+  error: false,
+  listBook: {
+    repositories: [],
+    data: [],
   },
 };
 
@@ -31,42 +29,21 @@ const listBookReducer = (state = initialState, action) =>
   produce(state, draft => {
     switch (action.type) {
       case LOAD_LISTBOOK:
-        if (action.isLoadMore === false) {
-          draft.linkParams.offset = initialState.linkParams.offset;
-        } else {
-          draft.statusFlags.isLoadMore = true;
+        draft.loading = true;
+        if (action.isloading === true) {
+          draft.offset += 10;
+          action.offset = draft.offset;
         }
         break;
 
       case LOAD_LISTBOOK_SUCCESS:
-        const data = action.listBook;
-        let list = [];
-
-        if (action.listBook.length > 0) {
-          draft.linkParams.offset =
-            state.linkParams.offset + action.listBook.length;
-        }
-
-        if (action.isLoadMore === false) {
-          list = data;
-        } else {
-          list = [...state.listBook, ...data];
-          draft.statusFlags.isLoadMore = false;
-        }
-
-        draft.listBook = list;
-        draft.statusFlags.isCallApi = true;
-
+        draft.loading = false;
+        draft.listBook.repositories.push(...action.listBooks);
         break;
 
       case LOAD_LISTBOOK_ERROR:
-        draft.linkParams.offset = state.linkParams.offset;
-        if (action.isLoadMore === false) {
-          draft.listReport = initialState.listReport;
-        } else {
-          draft.statusFlags.isLoadMore = false;
-          alert('Gọi API thất bại !');
-        }
+        draft.error = action.error;
+        draft.loading = false;
         break;
     }
   });

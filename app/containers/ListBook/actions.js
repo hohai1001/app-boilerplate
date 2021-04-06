@@ -17,28 +17,27 @@ export function defaultAction() {
   };
 }
 
-export function loadListBook(isLoadMore = false) {
-  // console.log('action --- loadListBook');
+export function loadListBook(offset = 0, isloading) {
+  // console.log('action --- loadRepos');
   return {
     type: LOAD_LISTBOOK,
-    isLoadMore,
+    offset,
+    isloading,
   };
 }
 
-export function loadListBookSuccess(listBook, isLoadMore = false) {
+export function loadListBookSuccess(listBooks = []) {
   // console.log('action --- loadListBookSuccess');
   return {
     type: LOAD_LISTBOOK_SUCCESS,
-    listBook,
-    isLoadMore,
+    listBooks,
   };
 }
 
-export function loadListBookError(error = '', isLoadMore = false) {
-  // console.log('action --- loadListBookError');
+export function loadListBookError(error) {
+  // console.log('action --- repoLoadingError');
   return {
     type: LOAD_LISTBOOK_ERROR,
     error,
-    isLoadMore,
   };
 }

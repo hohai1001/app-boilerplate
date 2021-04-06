@@ -24,38 +24,28 @@ const makeSelectListBook = () =>
 const makeSelectLoading = () =>
   createSelector(
     selectListBookDomain,
-    globalState => globalState.statusFlags.isLoadMore,
-  );
-const makeSelectIsCallApi = () =>
-  createSelector(
-    selectListBookDomain,
-    globalState => globalState.statusFlags.isCallApi,
-  );
-
-const makeSelectLinkParams = () =>
-  createSelector(
-    selectListBookDomain,
-    globalState => globalState.linkParams,
+    globalState => globalState.loading,
   );
 
 const makeSelectError = () =>
   createSelector(
     selectListBookDomain,
-    globalState => globalState.linkParams.errorMessage,
+    globalState => globalState.error,
   );
 
 const makeSelectRepos = () =>
   createSelector(
     selectListBookDomain,
-    globalState => globalState.listBook,
+    globalState => globalState.listBook.repositories,
   );
+
+// export default makeSelectListBook;
+// export { selectListBookDomain };
 
 export {
   selectListBookDomain,
   makeSelectListBook,
   makeSelectLoading,
-  makeSelectLinkParams,
   makeSelectError,
   makeSelectRepos,
-  makeSelectIsCallApi,
 };
