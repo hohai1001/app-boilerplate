@@ -23,6 +23,7 @@ export const initialState = {
   statusFlags: {
     isLoadMore: false,
     isCallApi: false,
+    isLoading: false,
   },
 };
 
@@ -31,7 +32,7 @@ const listBookReducer = (state = initialState, action) =>
   produce(state, draft => {
     switch (action.type) {
       case LOAD_LISTBOOK:
-        draft.statusFlags.isCallApi = true;
+        draft.statusFlags.isLoading = true;
         if (action.isLoadMore === false) {
           draft.linkParams.offset = initialState.linkParams.offset;
         } else {

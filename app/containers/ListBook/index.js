@@ -17,7 +17,10 @@ import { useInjectSaga } from 'utils/injectSaga';
 import { useInjectReducer } from 'utils/injectReducer';
 import {
   makeSelectIsCallApi,
+  makeSelectIsLoading,
+  makeSelectLimit,
   makeSelectLoading,
+  makeSelectOffset,
   makeSelectRepos,
 } from './selectors';
 import reducer from './reducer';
@@ -26,14 +29,22 @@ import saga from './saga';
 import { loadListBook } from './actions';
 import Loading from '../loading';
 
-export function ListBook({ getListBook, listBook, isLoadMore, isCallApi }) {
+export function ListBook({
+  getListBook,
+  listBook,
+  isLoadMore,
+  isCallApi,
+  isLoding,
+  offset,
+  limit,
+}) {
   useInjectReducer({ key: 'listBook', reducer });
   useInjectSaga({ key: 'listBook', saga });
 
   React.useEffect(() => {
     if (!isCallApi) getListBook();
   }, [isCallApi]);
-
+  // console.log('limit', limit);
   return (
     <div>
       <Helmet>
@@ -42,7 +53,7 @@ export function ListBook({ getListBook, listBook, isLoadMore, isCallApi }) {
       </Helmet>
       {/* <FormattedMessage {...messages.header} /> */}
 
-      {isCallApi ? (
+      {isLoding ? (
         <div>
           <table style={{ border: '1px solid black', width: '100%' }}>
             <tr style={{ border: '1px solid black' }}>
@@ -84,7 +95,9 @@ export function ListBook({ getListBook, listBook, isLoadMore, isCallApi }) {
             {isLoadMore ? (
               <Loading />
             ) : (
-              <button onClick={() => getListBook(true)}>Load more</button>
+              <button onClick={() => getListBook(limit, offset, true)}>
+                Load more
+              </button>
             )}
           </div>
           <br />
@@ -111,6 +124,9 @@ ListBook.propTypes = {
   listBook: PropTypes.any,
   isLoadMore: PropTypes.bool,
   isCallApi: PropTypes.bool,
+  isLoding: PropTypes.bool,
+  limit: PropTypes.number,
+  offset: PropTypes.number,
 };
 
 const mapStateToProps = createStructuredSelector({
@@ -118,11 +134,15 @@ const mapStateToProps = createStructuredSelector({
   listBook: makeSelectRepos(),
   isLoadMore: makeSelectLoading(),
   isCallApi: makeSelectIsCallApi(),
+  isLoding: makeSelectIsLoading(),
+  limit: makeSelectLimit(),
+  offset: makeSelectOffset(),
 });
 
 function mapDispatchToProps(dispatch) {
   return {
-    getListBook: isLoadMore => dispatch(loadListBook(isLoadMore)),
+    getListBook: (limit, offset, isLoadMore) =>
+      dispatch(loadListBook(limit, offset, isLoadMore)),
     isCall: () => dispatch(loadListBook()),
   };
 }
