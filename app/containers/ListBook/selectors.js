@@ -31,11 +31,27 @@ const makeSelectIsCallApi = () =>
     selectListBookDomain,
     globalState => globalState.statusFlags.isCallApi,
   );
-
+const makeSelectIsLoading = () =>
+  createSelector(
+    selectListBookDomain,
+    globalState => globalState.statusFlags.isLoading,
+  );
 const makeSelectLinkParams = () =>
   createSelector(
     selectListBookDomain,
     globalState => globalState.linkParams,
+  );
+
+const makeSelectLimit = () =>
+  createSelector(
+    selectListBookDomain,
+    globalState => globalState.linkParams.limit,
+  );
+
+const makeSelectOffset = () =>
+  createSelector(
+    selectListBookDomain,
+    globalState => globalState.linkParams.offset,
   );
 
 const makeSelectError = () =>
@@ -58,4 +74,7 @@ export {
   makeSelectError,
   makeSelectRepos,
   makeSelectIsCallApi,
+  makeSelectIsLoading,
+  makeSelectLimit,
+  makeSelectOffset,
 };
