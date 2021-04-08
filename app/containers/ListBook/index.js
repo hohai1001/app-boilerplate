@@ -44,7 +44,7 @@ export function ListBook({
   React.useEffect(() => {
     if (!isCallApi) getListBook();
   }, [isCallApi]);
-  // console.log('limit', limit);
+  // console.log('isLoadMore', isLoadMore);
   return (
     <div>
       <Helmet>
@@ -56,14 +56,14 @@ export function ListBook({
       {isLoding ? (
         <div>
           <table style={{ border: '1px solid black', width: '100%' }}>
-            <tr style={{ border: '1px solid black' }}>
+            {/* <tr style={{ border: '1px solid black' }}>
               <td style={{ border: '1px solid black', width: '10%' }}>No</td>
               <td style={{ border: '1px solid black', width: '30%' }}>Title</td>
               <td style={{ border: '1px solid black', width: '50%' }}>
                 Description
               </td>
               <td style={{ border: '1px solid black', width: '10%' }}>Price</td>
-            </tr>
+            </tr> */}
             {listBook &&
               listBook.length > 0 &&
               listBook.map((item, idx) => (

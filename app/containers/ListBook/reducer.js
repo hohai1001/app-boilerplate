@@ -36,6 +36,7 @@ const listBookReducer = (state = initialState, action) =>
         if (action.isLoadMore === false) {
           draft.linkParams.offset = initialState.linkParams.offset;
         } else {
+          // cho màn loadmore quay
           draft.statusFlags.isLoadMore = true;
         }
         break;
@@ -50,8 +51,10 @@ const listBookReducer = (state = initialState, action) =>
         }
 
         if (action.listBook.length === draft.linkParams.limit) {
+          // set lại isLoadMore để tắt xoay
           draft.statusFlags.isLoadMore = false;
         } else if (action.listBook.length < draft.linkParams.limit) {
+          // 2 trường hợp dưới này là số lượng data lấy về không đủ, set lại bằng true cho xoay
           draft.statusFlags.isLoadMore = true;
         } else {
           draft.statusFlags.isLoadMore = true;

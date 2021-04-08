@@ -17,7 +17,7 @@ export function defaultAction() {
   };
 }
 
-export function loadListBook(limit, offset, isLoadMore = false) {
+export function loadListBook(limit = 10, offset = 0, isLoadMore = false) {
   // console.log('action --- loadListBook');
   return {
     type: LOAD_LISTBOOK,
