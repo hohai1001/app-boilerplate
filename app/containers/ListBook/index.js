@@ -22,6 +22,7 @@ import {
   makeSelectLoading,
   makeSelectOffset,
   makeSelectRepos,
+  makeSelectIsButton,
 } from './selectors';
 import reducer from './reducer';
 import saga from './saga';
@@ -37,14 +38,17 @@ export function ListBook({
   isLoding,
   offset,
   limit,
+  isButton,
 }) {
   useInjectReducer({ key: 'listBook', reducer });
   useInjectSaga({ key: 'listBook', saga });
 
   React.useEffect(() => {
-    if (!isCallApi) getListBook();
+    if (!isCallApi) getListBook(limit, offset, isLoadMore);
   }, [isCallApi]);
-  // console.log('isLoadMore', isLoadMore);
+  // console.log(
+  //   `limit ${limit} --- offset ${offset} --- isLoadMore ${isLoadMore}`,
+  // );
   return (
     <div>
       <Helmet>
@@ -85,21 +89,25 @@ export function ListBook({
           </table>
 
           <br />
-          <div
-            style={{
-              display: 'flex',
-              justifyContent: 'center',
-              alignItems: 'center',
-            }}
-          >
-            {isLoadMore ? (
-              <Loading />
-            ) : (
-              <button onClick={() => getListBook(limit, offset, true)}>
-                Load more
-              </button>
-            )}
-          </div>
+          {isButton ? (
+            ''
+          ) : (
+            <div
+              style={{
+                display: 'flex',
+                justifyContent: 'center',
+                alignItems: 'center',
+              }}
+            >
+              {isLoadMore ? (
+                <Loading />
+              ) : (
+                <button onClick={() => getListBook(limit, offset, true)}>
+                  Load more
+                </button>
+              )}
+            </div>
+          )}
           <br />
         </div>
       ) : (
@@ -127,6 +135,7 @@ ListBook.propTypes = {
   isLoding: PropTypes.bool,
   limit: PropTypes.number,
   offset: PropTypes.number,
+  isButton: PropTypes.bool,
 };
 
 const mapStateToProps = createStructuredSelector({
@@ -137,6 +146,7 @@ const mapStateToProps = createStructuredSelector({
   isLoding: makeSelectIsLoading(),
   limit: makeSelectLimit(),
   offset: makeSelectOffset(),
+  isButton: makeSelectIsButton(),
 });
 
 function mapDispatchToProps(dispatch) {

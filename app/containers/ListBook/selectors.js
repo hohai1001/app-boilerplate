@@ -31,11 +31,19 @@ const makeSelectIsCallApi = () =>
     selectListBookDomain,
     globalState => globalState.statusFlags.isCallApi,
   );
+
 const makeSelectIsLoading = () =>
   createSelector(
     selectListBookDomain,
     globalState => globalState.statusFlags.isLoading,
   );
+
+const makeSelectIsButton = () =>
+  createSelector(
+    selectListBookDomain,
+    globalState => globalState.statusFlags.isButton,
+  );
+
 const makeSelectLinkParams = () =>
   createSelector(
     selectListBookDomain,
@@ -77,4 +85,5 @@ export {
   makeSelectIsLoading,
   makeSelectLimit,
   makeSelectOffset,
+  makeSelectIsButton,
 };

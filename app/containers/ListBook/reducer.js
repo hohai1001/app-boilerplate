@@ -24,6 +24,7 @@ export const initialState = {
     isLoadMore: false,
     isCallApi: false,
     isLoading: false,
+    isButton: false,
   },
 };
 
@@ -56,8 +57,10 @@ const listBookReducer = (state = initialState, action) =>
         } else if (action.listBook.length < draft.linkParams.limit) {
           // 2 trường hợp dưới này là số lượng data lấy về không đủ, set lại bằng true cho xoay
           draft.statusFlags.isLoadMore = true;
+          draft.statusFlags.isButton = true;
         } else {
           draft.statusFlags.isLoadMore = true;
+          draft.statusFlags.isButton = true;
         }
 
         if (action.isLoadMore === false) {

@@ -1,9 +1,9 @@
 /* eslint-disable no-param-reassign */
-import { call, put, takeLatest } from 'redux-saga/effects';
+import { call, put, takeLatest, select } from 'redux-saga/effects';
 import request from 'utils/request';
 import { LOAD_LISTBOOK } from './constants';
 import { loadListBookError, loadListBookSuccess } from './actions';
-// import { makeSelectLinkParams } from './selectors';
+import { makeSelectLinkParams } from './selectors';
 // import _get from 'lodash/get';
 
 // Individual exports for testingggggggggggggg
@@ -13,9 +13,9 @@ function* listBookSaga(action) {
   const requestURL = 'https://jsonplaceholder.typicode.com/posts';
   // console.log('action ', action);
   try {
-    // const { limit, offset } = yield select(makeSelectLinkParams());
+    const { limit, offset } = yield select(makeSelectLinkParams());
     // Call our request helper (see 'utils/request')
-
+    // console.log(`limit ${limit} ------ offset ${offset}`);
     const getBook = yield call(request, requestURL);
 
     // console.log('request', getBook);
@@ -25,10 +25,7 @@ function* listBookSaga(action) {
       item.price = Math.floor(Math.random() * 100);
       return item;
     });
-    const listBook = addFields.slice(
-      action.offset,
-      action.limit + action.offset,
-    );
+    const listBook = addFields.slice(offset, limit + offset);
 
     yield put(loadListBookSuccess(listBook, action.isLoadMore));
   } catch (err) {
