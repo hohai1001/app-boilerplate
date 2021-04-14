@@ -17,13 +17,14 @@ export function defaultAction() {
   };
 }
 
-export function loadListBook(limit, offset, isLoadMore = false) {
+export function loadListBook(limit, offset, isLoadMore = false, text) {
   // console.log('action --- loadListBook');
   return {
     type: LOAD_LISTBOOK,
     limit,
     offset,
     isLoadMore,
+    text,
   };
 }
 

@@ -11,9 +11,17 @@ import { makeSelectLinkParams } from './selectors';
 function* listBookSaga(action) {
   // See example in containers/HomePage/saga.js
   const requestURL = 'https://jsonplaceholder.typicode.com/posts';
-  // console.log('action ', action);
+
   try {
+    // const { limit, offset } = yield select(makeSelectLinkParams());
     const { limit, offset } = yield select(makeSelectLinkParams());
+
+    // let valueSearch;
+    // if (action.text !== undefined) {
+    //   valueSearch = action.text;
+    // }
+    // console.log('valueSearch', valueSearch);
+
     // Call our request helper (see 'utils/request')
     // console.log(`limit ${limit} ------ offset ${offset}`);
     const getBook = yield call(request, requestURL);
@@ -26,6 +34,14 @@ function* listBookSaga(action) {
       return item;
     });
     const listBook = addFields.slice(offset, limit + offset);
+
+    // const datas = listBook.filter(item => {
+    //   return item.title.toLowerCase().indexOf(listBook.name) !== -1;
+    // });
+
+    // console.log('data', datas);
+
+    // console.log('list', listBook);
 
     yield put(loadListBookSuccess(listBook, action.isLoadMore));
   } catch (err) {

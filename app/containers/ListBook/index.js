@@ -49,6 +49,22 @@ export function ListBook({
   // console.log(
   //   `limit ${limit} --- offset ${offset} --- isLoadMore ${isLoadMore}`,
   // );
+
+  const [value, setValue] = React.useState('');
+
+  const handleSearch = e => {
+    e.preventDefault();
+    if (value !== undefined) {
+      getListBook(limit, offset, true, value);
+    } else {
+      getListBook(limit, 0);
+    }
+  };
+
+  const handleGetValue = e => {
+    setValue(e.target.value);
+  };
+
   return (
     <div>
       <Helmet>
@@ -56,7 +72,17 @@ export function ListBook({
         <meta name="description" content="Description of ListBook" />
       </Helmet>
       {/* <FormattedMessage {...messages.header} /> */}
-
+      <br />
+      <form onSubmit={handleSearch} style={{ textAlign: 'center' }}>
+        <input
+          type="text"
+          name="search"
+          onChange={handleGetValue}
+          style={{ width: '500px' }}
+        />
+        <button>Search</button>
+      </form>
+      <br />
       {isLoding ? (
         <div>
           <table style={{ border: '1px solid black', width: '100%' }}>
@@ -151,8 +177,8 @@ const mapStateToProps = createStructuredSelector({
 
 function mapDispatchToProps(dispatch) {
   return {
-    getListBook: (limit, offset, isLoadMore) =>
-      dispatch(loadListBook(limit, offset, isLoadMore)),
+    getListBook: (limit, offset, isLoadMore, text) =>
+      dispatch(loadListBook(limit, offset, isLoadMore, text)),
     isCall: () => dispatch(loadListBook()),
   };
 }
