@@ -34,16 +34,30 @@ function* listBookSaga(action) {
       return item;
     });
     const listBook = addFields.slice(offset, limit + offset);
+    let datas = [];
 
-    // const datas = listBook.filter(item => {
-    //   return item.title.toLowerCase().indexOf(listBook.name) !== -1;
-    // });
+    if (action.text === undefined) {
+      datas = listBook;
+    } else {
+      const fakeData = listBook.filter(
+        item =>
+          // console.log('aciton.text', action.text);
+          item.title.toLowerCase().indexOf(action.text) !== -1,
+      );
+      if (fakeData !== undefined) {
+        datas = fakeData;
+      } else {
+        datas = listBook;
+      }
+    }
+
+    // console.log('datas', datas);
 
     // console.log('data', datas);
 
     // console.log('list', listBook);
 
-    yield put(loadListBookSuccess(listBook, action.isLoadMore));
+    yield put(loadListBookSuccess(datas, action.isLoadMore));
   } catch (err) {
     yield put(loadListBookError(err));
   }

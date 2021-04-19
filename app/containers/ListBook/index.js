@@ -99,7 +99,7 @@ export function ListBook({
               listBook.map((item, idx) => (
                 <tr key={idx.toString()} style={{ border: '1px solid black' }}>
                   <td style={{ border: '1px solid black', width: '10%' }}>
-                    {item.no}
+                    {idx + 1}
                   </td>
                   <td style={{ border: '1px solid black', width: '30%' }}>
                     {item.title}
